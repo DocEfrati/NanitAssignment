@@ -5,15 +5,109 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DetailsActivity">
+    android:background="@android:color/white">
 
-    <TextView
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_begin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/activity_horizontal_margin"/>
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="@dimen/activity_horizontal_margin"/>
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/details_margin_top"
+        android:text="@string/title"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/name_textInputLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/details_margin_top"
+        app:layout_constraintEnd_toStartOf="@id/guideline_end"
+        app:layout_constraintStart_toEndOf="@id/guideline_begin"
+        app:layout_constraintTop_toBottomOf="@+id/title">
+
+        <EditText
+            android:id="@+id/name_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/name"
+            android:inputType="text"
+            android:maxLines="1"
+            tools:text="John"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/birthday_textInputLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        app:layout_constraintEnd_toStartOf="@id/guideline_end"
+        app:layout_constraintStart_toEndOf="@id/guideline_begin"
+        app:layout_constraintTop_toBottomOf="@+id/name_textInputLayout">
+
+        <EditText
+            android:id="@+id/birthday_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/birthday"
+            android:maxLines="1"
+            android:focusable="false"
+            tools:text="9/01/1999"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/picture_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/details_margin_top"
+        android:text="@string/upload_picture"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toStartOf="@id/guideline_end"
+        app:layout_constraintStart_toEndOf="@id/guideline_begin"
+        app:layout_constraintTop_toBottomOf="@+id/birthday_textInputLayout"
+        tools:text="picture"/>
+
+    <ImageView
+        android:id="@+id/picture"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/default_place_holder_green"
+        android:layout_marginTop="@dimen/details_margin_top"
+        app:layout_constraintTop_toBottomOf="@+id/picture_btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:src="@drawable/default_place_holder_green"/>
+
+    <Button
+        android:id="@+id/show_birthday_screen_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/details_margin_top"
+        android:text="@string/show_birthday_screen"
+        android:textAllCaps="false"
+        android:enabled="false"
+        app:layout_constraintEnd_toStartOf="@id/guideline_end"
+        app:layout_constraintStart_toEndOf="@id/guideline_begin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:text="Show birthday screen"/>
+
 
 </android.support.constraint.ConstraintLayout>
