@@ -184,7 +184,8 @@ public class ImageHandler {
 		return isCamera ? getCaptureImageOutputUri(activityContext) : data.getData();
 	}
 
-	static void setPictureFromStorageIfExist(Context context, ImageView picture, String pictureFilePath) {
+	static boolean setPictureFromStorageIfExist(Context context, ImageView picture, String pictureFilePath) {
+		boolean success = false;
 		if (pictureFilePath != null) {
 			ContentResolver cr = context.getContentResolver();
 			try {
@@ -193,13 +194,17 @@ public class ImageHandler {
 					Uri fileUri = Uri.fromFile(new File(getImage.getPath(), ImageHandler.PICTURE_FILE_NAME));
 					Bitmap bitmap = MediaStore.Images.Media.getBitmap(cr, fileUri);
 					if (picture != null) {
-						picture.setImageBitmap(bitmap);
+						RoundedBitmapDrawable roundDrawable = RoundedBitmapDrawableFactory.create(context.getResources(), bitmap);
+						roundDrawable.setCircular(true);
+						picture.setImageDrawable(roundDrawable);
+						success = true;
 					}
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
+		return success;
 	}
 
 
