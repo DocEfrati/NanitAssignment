@@ -184,5 +184,23 @@ public class ImageHandler {
 		return isCamera ? getCaptureImageOutputUri(activityContext) : data.getData();
 	}
 
+	static void setPictureFromStorageIfExist(Context context, ImageView picture, String pictureFilePath) {
+		if (pictureFilePath != null) {
+			ContentResolver cr = context.getContentResolver();
+			try {
+				File getImage = context.getExternalFilesDir(null);
+				if (getImage != null) {
+					Uri fileUri = Uri.fromFile(new File(getImage.getPath(), ImageHandler.PICTURE_FILE_NAME));
+					Bitmap bitmap = MediaStore.Images.Media.getBitmap(cr, fileUri);
+					if (picture != null) {
+						picture.setImageBitmap(bitmap);
+					}
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 
 }
