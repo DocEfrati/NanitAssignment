@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">NanitAssignment</string>
+
+    <string name="title">Nanit</string>
+    <string name="name">Name</string>
+    <string name="birthday">Birthday</string>
+    <string name="upload_picture">Upload picture</string>
+    <string name="show_birthday_screen">Show birthday screen</string>
 </resources>
