@@ -6,4 +6,8 @@
     <string name="birthday">Birthday</string>
     <string name="upload_picture">Upload picture</string>
     <string name="show_birthday_screen">Show birthday screen</string>
+    <string name="today_birthday">Today %s is</string>
+    <string name="month">MONTH OLD!</string>
+    <string name="year">YEARS OLD!</string>
+    <string name="share_the_news">Share the news</string>
 </resources>

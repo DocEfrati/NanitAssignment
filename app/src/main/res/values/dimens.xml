@@ -1,7 +1,9 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">20dp</dimen>
+
     <dimen name="details_margin_top">15dp</dimen>
     <dimen name="image_max_size">220dp</dimen>
+    <dimen name="place_holder_bottom_margin">92dp</dimen>
 
 </resources>
