@@ -38,6 +38,9 @@ public class BirthdayActivity extends AppCompatActivity {
 	@BindView(R.id.name)
 	TextView name;
 
+	@BindView(R.id.age_old_text)
+	TextView ageOldText;
+
 	@BindView(R.id.age_first_digit)
 	ImageView ageFirstDigit;
 
@@ -197,6 +200,7 @@ public class BirthdayActivity extends AppCompatActivity {
 			firstDigit = age / 10;
 		}
 		ageFirstDigit.setImageResource(numbersMap.get(firstDigit));
+		ageOldText.setText(R.string.year);
 	}
 
 	private void setAgeInMonth(Calendar dob, Calendar today) {
@@ -217,6 +221,7 @@ public class BirthdayActivity extends AppCompatActivity {
 		monthsBetween += today.get(Calendar.MONTH) - dob.get(Calendar.MONTH);
 		monthsBetween += (today.get(Calendar.YEAR) - dob.get(Calendar.YEAR)) * 12;
 		ageFirstDigit.setImageResource(numbersMap.get(monthsBetween));
+		ageOldText.setText(R.string.month);
 	}
 
 }
