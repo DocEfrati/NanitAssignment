@@ -14,15 +14,16 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".DetailsActivity"
-            android:screenOrientation="portrait"> <!-- can be also landscape but for simplicity i support only portrait -->
-
+            android:screenOrientation="portrait"> <!-- can be also landscape but for simplicity i support only
+            portrait -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-        </activity>
-        <activity android:name=".BirthdayActivity">
+        </activity><activity
+            android:name=".BirthdayActivity"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 
