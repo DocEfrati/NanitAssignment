@@ -40,8 +40,10 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="10dp"
+        android:paddingStart="15dp"
+        android:paddingTop="15dp"
+        android:paddingEnd="50dp"
+        android:paddingBottom="50dp"
         android:background="@android:color/transparent"
         android:src="@drawable/ic_clear_black"/>
 
