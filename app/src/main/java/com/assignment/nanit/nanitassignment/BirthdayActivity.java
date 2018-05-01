@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.SparseArray;
 import android.util.SparseIntArray;
@@ -73,7 +74,7 @@ public class BirthdayActivity extends AppCompatActivity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == Activity.RESULT_OK) {
 			if (requestCode == CAMERA_REQUEST_CODE) {
-				ImageHandler.handleImage(this, data, placeHolder, true);
+				ImageHandler.handleImage(this, data, placeHolder, true, placeHolder.getHeight());
 				setResult(Activity.RESULT_OK);
 			}
 		}
@@ -140,7 +141,8 @@ public class BirthdayActivity extends AppCompatActivity {
 
 		boolean setImageFromStorageSuccessfully = false;
 		if (pictureFilePath != null) {
-			setImageFromStorageSuccessfully = ImageHandler.setPictureFromStorageIfExist(this, placeHolder, pictureFilePath);
+			setImageFromStorageSuccessfully = ImageHandler.setPictureFromStorageIfExist(this, placeHolder,
+					pictureFilePath, false, getPlaceHolderDefaultSize());
 		}
 		if (!setImageFromStorageSuccessfully) {
 			placeHolder.setImageResource(resourcesMap.get(PLACE_HOLDER));
@@ -149,13 +151,20 @@ public class BirthdayActivity extends AppCompatActivity {
 		pictureBtn.setImageResource(resourcesMap.get(CAMERA));
 
 		setAge(birthday);
+	}
 
+	private int getPlaceHolderDefaultSize() {
+		DisplayMetrics displaymetrics = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+		int screenWidth = displaymetrics.widthPixels;
+		int screenHeight = displaymetrics.heightPixels;
+		placeHolder.measure(screenWidth, screenHeight);
+		return placeHolder.getMeasuredHeight();
 	}
 
 	/**
 	 * Method to extract the user's age from the entered Date of Birth.
 	 *
-	 * @return ageS String The user's age in years based on the supplied DoB.
 	 */
 	private void setAge(String birthday){
 		Calendar dob = Calendar.getInstance();
@@ -171,7 +180,7 @@ public class BirthdayActivity extends AppCompatActivity {
 
 		// Check if if the age is less then 12 month
 		if (todayYear == dobYear || ( todayYear - dobYear == 1 &&
-				(todayMonth < dobMonth || (todayMonth == dobMonth && todayDayOfMonth < dobDayOfMonth) ) ) ) {
+				(todayMonth < dobMonth || (todayMonth == dobMonth && dobDayOfMonth < todayDayOfMonth) ) ) ) {
 			setAgeInMonth(dob, today);
 		} else {
 			setAgeInYears(dob, today, todayYear, dobYear);
@@ -215,9 +224,8 @@ public class BirthdayActivity extends AppCompatActivity {
 			if (dateDiff > 0) {
 				monthsBetween++;
 			}
-		} else {
-			monthsBetween++;
 		}
+
 		monthsBetween += today.get(Calendar.MONTH) - dob.get(Calendar.MONTH);
 		monthsBetween += (today.get(Calendar.YEAR) - dob.get(Calendar.YEAR)) * 12;
 		ageFirstDigit.setImageResource(numbersMap.get(monthsBetween));

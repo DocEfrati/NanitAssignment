@@ -9,64 +9,68 @@
 
     <ImageView
         android:id="@+id/place_holder"
-        android:layout_width="@dimen/image_max_size"
-        android:layout_height="@dimen/image_max_size"
-        android:layout_marginBottom="92dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintTop_toTopOf="@+id/percent_guideline"
+        android:src="@drawable/default_place_holder_blue"
+        tools:src="@drawable/default_place_holder_blue"/>
 
     <ImageView
         android:id="@+id/popup"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop"
+        tools:src="@drawable/android_pelican_popup"/>
 
     <ImageView
         android:id="@+id/picture_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="22dp"
+        android:layout_marginTop="15dp"
         app:layout_constraintRight_toRightOf="@+id/place_holder"
         app:layout_constraintTop_toTopOf="@+id/place_holder"
-        android:layout_marginEnd="22dp"
-        android:layout_marginTop="15dp"/>
+        tools:src="@drawable/camera_icon_blue"/>
 
     <ImageButton
         android:id="@+id/close_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
+        android:background="@android:color/transparent"
+        android:paddingBottom="50dp"
+        android:paddingEnd="50dp"
         android:paddingStart="15dp"
         android:paddingTop="15dp"
-        android:paddingEnd="50dp"
-        android:paddingBottom="50dp"
-        android:background="@android:color/transparent"
-        android:src="@drawable/ic_clear_black"/>
+        android:src="@drawable/ic_clear_black"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
         android:id="@+id/name"
         android:layout_width="@dimen/image_max_size"
         android:layout_height="wrap_content"
-        android:maxLines="2"
         android:layout_marginTop="20dp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="2"
+        android:textColor="@android:color/black"
+        android:textSize="22sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:textSize="22sp"
-        android:textColor="@android:color/black"
-        android:ellipsize="end"
-        android:gravity="center"/>
+        tools:text="Cristiana Ronalda"/>
 
     <ImageView
         android:id="@+id/left_swirls"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintRight_toLeftOf="@+id/age_layout"
-        app:layout_constraintTop_toTopOf="@+id/age_layout"
-        app:layout_constraintBottom_toBottomOf="@+id/age_layout"
         android:layout_marginEnd="10dp"
-        android:src="@drawable/left_swirls"/>
+        android:src="@drawable/left_swirls"
+        app:layout_constraintBottom_toBottomOf="@+id/age_layout"
+        app:layout_constraintRight_toLeftOf="@+id/age_layout"
+        app:layout_constraintTop_toTopOf="@+id/age_layout"/>
 
     <LinearLayout
         android:id="@+id/age_layout"
@@ -83,7 +87,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"/>
+            app:layout_constraintRight_toRightOf="parent"
+            tools:src="@drawable/one"/>
 
         <ImageView
             android:id="@+id/age_second_digit"
@@ -92,7 +97,9 @@
             android:layout_marginStart="3dp"
             android:visibility="gone"
             app:layout_constraintLeft_toRightOf="@+id/age_first_digit"
-            app:layout_constraintTop_toBottomOf="@+id/name"/>
+            app:layout_constraintTop_toBottomOf="@+id/name"
+            tools:src="@drawable/two"
+            tools:visibility="visible"/>
 
     </LinearLayout>
 
@@ -101,44 +108,45 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        app:layout_constraintLeft_toRightOf="@+id/age_layout"
-        app:layout_constraintTop_toTopOf="@+id/age_layout"
+        android:src="@drawable/right_swirls"
         app:layout_constraintBottom_toBottomOf="@+id/age_layout"
-        android:src="@drawable/right_swirls"/>
+        app:layout_constraintLeft_toRightOf="@+id/age_layout"
+        app:layout_constraintTop_toTopOf="@+id/age_layout"/>
 
     <TextView
         android:id="@+id/age_old_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:textColor="@android:color/black"
+        android:textSize="25sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/age_layout"
-        android:textSize="25sp"
-        android:textColor="@android:color/black"
-        android:gravity="center"/>
+        tools:text="MONTHS OLD!"/>
 
     <LinearLayout
         android:id="@+id/share_button_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@drawable/btn_share"
         android:layout_marginTop="5dp"
+        android:background="@drawable/btn_share"
+        android:gravity="center"
+        android:orientation="horizontal"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/age_old_text"
         app:layout_constraintRight_toRightOf="parent"
-        android:gravity="center">
+        app:layout_constraintTop_toBottomOf="@+id/age_old_text">
 
         <TextView
             android:id="@+id/share_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:textSize="16sp"
-            android:textColor="@android:color/holo_red_light"
             android:gravity="center"
-            android:text="@string/share_the_news"/>
+            android:text="@string/share_the_news"
+            android:textColor="@android:color/holo_red_light"
+            android:textSize="16sp"/>
 
         <ImageView
             android:id="@+id/share_arrow"
@@ -148,5 +156,12 @@
             android:src="@drawable/ic_share_pink"/>
 
     </LinearLayout>
+
+    <android.support.constraint.Guideline
+        android:id="@+id/percent_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.465"/>
 
 </android.support.constraint.ConstraintLayout>

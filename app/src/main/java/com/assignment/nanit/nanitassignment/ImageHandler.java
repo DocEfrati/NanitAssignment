@@ -13,6 +13,7 @@ import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -29,17 +30,20 @@ import java.util.List;
 public class ImageHandler {
 
 	private static final String TAG = "ImageHandler";
-	static final String PICTURE_FILE_NAME = "profile.png";
+	private static final String PICTURE_FILE_NAME = "profile.png";
 	static final String PREF_PICTURE_KEY = "PREF_PICTURE_KEY";
 
 	private static Uri outputFileUri;
 
-	static void handleImage(Activity activityContext, Intent data, ImageView image, boolean withResize) {
+	static void handleImage(Activity activityContext, Intent data, ImageView image, boolean withResize, int size) {
 		final Uri pickImageResultUri = getPickImageResultUri(activityContext, data);
 		if (pickImageResultUri != null) {
 			try {
 				Bitmap bitmap = MediaStore.Images.Media.getBitmap(activityContext.getContentResolver(), pickImageResultUri);
 //					bitmap = rotateImageIfRequired(myBitmap, picUri); // could even rotate if needed
+				bitmap = getResizedBitmap(bitmap, 660);
+				outputFileUri = pickImageResultUri;
+				SharedPreferenceHandler.saveToSharedPreferences(activityContext, PREF_PICTURE_KEY, outputFileUri.toString());
 				image.setImageBitmap(bitmap);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -47,7 +51,7 @@ public class ImageHandler {
 		} else {
 //				bitmap = (Bitmap) data.getExtras().get("data"); // if we will want to get only a thumbnail but then
 //              we need to remove the intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri); line of code
-			setImage(activityContext, image, withResize);
+			setImage(activityContext, image, withResize, size);
 		}
 	}
 
@@ -86,7 +90,7 @@ public class ImageHandler {
 		File getImage = activityContext.getExternalFilesDir(null);
 		if (getImage != null) {
 			outputFileUri = Uri.fromFile(new File(getImage.getPath(), PICTURE_FILE_NAME));
-			SharedPreferenceHandler.saveToSharedPreferences(activityContext, PREF_PICTURE_KEY, outputFileUri.getPath());
+			SharedPreferenceHandler.saveToSharedPreferences(activityContext, PREF_PICTURE_KEY, outputFileUri.toString());
 		}
 		return outputFileUri;
 	}
@@ -130,23 +134,25 @@ public class ImageHandler {
 		return mainIntent;
 	}
 
-	static void setImage(Context context, ImageView imageView, boolean withResize) {
-		context.getContentResolver().notifyChange(ImageHandler.outputFileUri, null);
+	static void setImage(Context context, ImageView imageView, boolean withResize, int size) {
+//		context.getContentResolver().notifyChange(outputFileUri, null);
 		ContentResolver cr = context.getContentResolver();
 		try {
-			Bitmap bitmap = android.provider.MediaStore.Images.Media.getBitmap(cr, ImageHandler.outputFileUri);
-			int valueInPixels = (int) context.getResources().getDimension(R.dimen.image_max_size);
+			Bitmap bitmap = android.provider.MediaStore.Images.Media.getBitmap(cr, outputFileUri);
 			if (withResize) {
-				bitmap = getResizedBitmap(bitmap, valueInPixels); // no need in this activity
+				bitmap = getResizedBitmap(bitmap, size); // no need in this activity
 			}
+
 //			bitmap = rotateImageIfRequired(myBitmap, picUri); // could even rotate if needed
 
+			// No real need for circular because there is a circle in the background
 			// Create the RoundedBitmapDrawable.
-			RoundedBitmapDrawable roundDrawable = RoundedBitmapDrawableFactory.create(context.getResources(), bitmap);
-			roundDrawable.setCircular(true);
+//			RoundedBitmapDrawable roundDrawable = RoundedBitmapDrawableFactory.create(context.getResources(), bitmap);
+//			roundDrawable.setCircular(true);
 
 			// Apply it to an ImageView.
-			imageView.setImageDrawable(roundDrawable);
+//			imageView.setImageDrawable(roundDrawable);
+			imageView.setImageBitmap(bitmap);
 
 		} catch (Exception e) {
 			Toast.makeText(context, "Failed to load", Toast.LENGTH_SHORT).show();
@@ -184,19 +190,27 @@ public class ImageHandler {
 		return isCamera ? getCaptureImageOutputUri(activityContext) : data.getData();
 	}
 
-	static boolean setPictureFromStorageIfExist(Context context, ImageView picture, String pictureFilePath) {
+	static boolean setPictureFromStorageIfExist(Context context, ImageView picture, String pictureFilePath,
+	                                            boolean makeCircular, int size) {
 		boolean success = false;
-		if (pictureFilePath != null) {
+		if (!TextUtils.isEmpty(pictureFilePath)) {
 			ContentResolver cr = context.getContentResolver();
 			try {
-				File getImage = context.getExternalFilesDir(null);
-				if (getImage != null) {
-					Uri fileUri = Uri.fromFile(new File(getImage.getPath(), ImageHandler.PICTURE_FILE_NAME));
+				File fileDir = context.getExternalFilesDir(null);
+				if (fileDir != null) {
+					Uri fileUri = Uri.parse(pictureFilePath);
 					Bitmap bitmap = MediaStore.Images.Media.getBitmap(cr, fileUri);
 					if (picture != null) {
-						RoundedBitmapDrawable roundDrawable = RoundedBitmapDrawableFactory.create(context.getResources(), bitmap);
-						roundDrawable.setCircular(true);
-						picture.setImageDrawable(roundDrawable);
+						if (size > 0) {
+							bitmap = getResizedBitmap(bitmap, size);
+						}
+						if(makeCircular) {
+							RoundedBitmapDrawable roundDrawable = RoundedBitmapDrawableFactory.create(context.getResources(), bitmap);
+							roundDrawable.setCircular(true);
+							picture.setImageDrawable(roundDrawable);
+						} else {
+							picture.setImageBitmap(bitmap);
+						}
 						success = true;
 					}
 				}
@@ -206,6 +220,5 @@ public class ImageHandler {
 		}
 		return success;
 	}
-
 
 }
